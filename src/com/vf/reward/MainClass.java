@@ -34,52 +34,16 @@ public class MainClass {
 
 	private void addRewards(Map<Customer, List<Voucher>> voucherGroup,
 			Map<Customer, List<Credit>> creditGroup, List<Reward> rewards) {
-		if (voucherGroup.size() >= creditGroup.size()) {
-
-			addVoucherGroup(voucherGroup, creditGroup, rewards);
+		
+			extractFromVoucherGroup(voucherGroup, creditGroup, rewards);
 			
-			addCreditGroup(creditGroup, rewards);
+			extractFromCreditGroup(creditGroup, rewards);
 
-		} else {
-
-			extractCreditRewards(voucherGroup, creditGroup, rewards);
-
-			addVoucherRewards(voucherGroup, rewards);
-
-		}
+		
 	}
 
-	private void addVoucherRewards(Map<Customer, List<Voucher>> voucherGroup,
-			List<Reward> rewards) {
-		for (Entry<Customer, List<Voucher>> voucher : voucherGroup
-				.entrySet()) {
-
-			rewards.add(new Reward(voucher.getValue(), voucher.getKey()));
-		}
-	}
-
-	private void extractCreditRewards(
-			Map<Customer, List<Voucher>> voucherGroup,
-			Map<Customer, List<Credit>> creditGroup, List<Reward> rewards) {
-		for (Entry<Customer, List<Credit>> credit : creditGroup.entrySet()) {
-
-			Reward reward = new Reward();
-
-			if (voucherGroup.get(credit.getKey()) != null) {
-				reward.setCredit(credit.getValue());
-				reward.setCustomer(credit.getKey());
-				reward.setVoucher(voucherGroup.get(credit.getKey()));
-				voucherGroup.remove(credit.getKey());
-				rewards.add(reward);
-			} else {
-				reward.setCredit(credit.getValue());
-				reward.setCustomer(credit.getKey());
-				rewards.add(reward);
-			}
-		}
-	}
-
-	private void addCreditGroup(Map<Customer, List<Credit>> creditGroup,
+	
+	private void extractFromCreditGroup(Map<Customer, List<Credit>> creditGroup,
 			List<Reward> rewards) {
 		for (Entry<Customer, List<Credit>> credit : creditGroup.entrySet()) {
 
@@ -87,7 +51,7 @@ public class MainClass {
 		}
 	}
 
-	private void addVoucherGroup(Map<Customer, List<Voucher>> voucherGroup,
+	private void extractFromVoucherGroup(Map<Customer, List<Voucher>> voucherGroup,
 			Map<Customer, List<Credit>> creditGroup, List<Reward> rewards) {
 		for (Entry<Customer, List<Voucher>> voucher : voucherGroup
 				.entrySet()) {
